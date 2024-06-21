@@ -2,4 +2,5 @@
     <string name="app_name">PM2Examen4983</string>
     <string name="Nombre">Nombre</string>
     <string name="Telefono">Teléfono</string>
+    <string name="Nota">Agregar nota</string>
 </resources>
