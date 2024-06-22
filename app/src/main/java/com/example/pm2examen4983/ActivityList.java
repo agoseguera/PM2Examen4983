@@ -1,9 +1,12 @@
 package com.example.pm2examen4983;
-
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,7 +16,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -25,11 +31,11 @@ import Configuracion.SQLiteConexion;
 import Configuracion.Trans;
 
 public class ActivityList extends AppCompatActivity {
-
     SQLiteConexion conexion;
     ListView contactosList;
     ArrayList<Contactos> lista;
     ArrayList<String> Arreglo;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,9 +60,9 @@ public class ActivityList extends AppCompatActivity {
         contactosList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String elementoSeleccionado = (String) parent.getItemAtPosition(position);
-
-                Toast.makeText(getApplicationContext(), elementoSeleccionado, Toast.LENGTH_SHORT).show();
+                Contactos contactoSeleccionado = lista.get(position);
+                //Toast.makeText(getApplicationContext(), elementoSeleccionado, Toast.LENGTH_SHORT).show();
+                msjConfirmacion(contactoSeleccionado);
             }
         });
 
@@ -64,7 +70,6 @@ public class ActivityList extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Crear un Intent para abrir SecondActivity
                 Intent intent = new Intent(ActivityList.this, ActivityInit.class);
                 startActivity(intent);
             }
@@ -88,7 +93,6 @@ public class ActivityList extends AppCompatActivity {
             contacto.setTelefono(cursor.getInt(3));
             contacto.setNota(cursor.getString(4));
 
-
             lista.add(contacto);
         }
         cursor.close();
@@ -109,9 +113,10 @@ public class ActivityList extends AppCompatActivity {
             case "Nicaragua":
                 return "+505";
             default:
-                return ""; // Devuelve una cadena vacía si el país no está en la lista
+                return "";
         }
     }
+
 
     private void FillDate() {
         Arreglo = new ArrayList<String>();
@@ -122,4 +127,35 @@ public class ActivityList extends AppCompatActivity {
         }
     }
 
+
+    private void msjConfirmacion(Contactos contacto){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Acción");
+        builder.setMessage("¿Desea llamar a " + contacto.getNombres() + "?");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                realizarLlamada(contacto);
+
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+    private void realizarLlamada(Contactos contacto){
+
+        String codigoArea = obtenerCodigoArea(contacto.getPais());
+        String numeroTelefono = codigoArea + contacto.getTelefono();
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + numeroTelefono));
+        startActivity(intent);
+    }
 }
