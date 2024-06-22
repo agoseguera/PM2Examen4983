@@ -1,6 +1,7 @@
 package com.example.pm2examen4983;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -213,6 +214,9 @@ public class ActivityList extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_TITLE, "INFORMACIÓN DE CONTACTO");
         intent.putExtra(Intent.EXTRA_TEXT, info);
         intent.setType("text/plain");
+        Intent share = Intent.createChooser(intent, null);
+        startActivity(share);
+    }
     private void msjConfirmacionLlamada(Contactos contacto){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Acción");
@@ -221,7 +225,6 @@ public class ActivityList extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 realizarLlamada(contacto);
-
             }
         });
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -232,24 +235,13 @@ public class ActivityList extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-
-        Intent share = Intent.createChooser(intent, null);
-        startActivity(share);
     }
-
-
-
-
-}
+    private void realizarLlamada(Contactos contacto){
         String codigoArea = obtenerCodigoArea(contacto.getPais());
         String numeroTelefono = codigoArea + contacto.getTelefono();
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse("tel:" + numeroTelefono));
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
-        } else {
-            startActivity(intent);
-        }
+        startActivity(intent);
     }
     private void eliminarContacto(Contactos contacto) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
