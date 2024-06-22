@@ -55,6 +55,11 @@
             android:exported="false">
         </activity>
         <activity
+            android:name=".ActivityUpdate"
+            android:exported="false">
+
+        </activity>
+        <activity
             android:name=".ActivityInit"
             android:exported="true">
 

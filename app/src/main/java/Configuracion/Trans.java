@@ -23,7 +23,8 @@ public class Trans {
             pais + " TEXT, " +
             nombres + " TEXT, " +
             telefono + " INTEGER, " +
-            nota + " TEXT)";
+            nota + " TEXT, " +
+            foto + " BLOB)";
 
 
     public static final String SelectAllContactos = "SELECT * FROM " + TableContactos;

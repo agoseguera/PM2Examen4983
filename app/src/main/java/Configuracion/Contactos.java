@@ -8,6 +8,7 @@ public class Contactos {
     private String nota;
     private String foto;
 
+
     public Contactos(Integer id, String pais, String nombres, Integer telefono, String nota) {
         this.id = id;
         this.pais = pais;

@@ -3,6 +3,7 @@ package com.example.pm2examen4983;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -150,6 +153,18 @@ public class ActivityList extends AppCompatActivity {
                 }
             }
         });
+
+        Button btnActualizar = findViewById(R.id.btnActualizar);
+        btnActualizar.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                if (contactoSeleccionado != null) {
+                    iniciarActualizacionContacto(contactoSeleccionado);
+                } else {
+                    Toast.makeText(ActivityList.this, "Seleccione un contacto primero", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void obtenerInfo(){
@@ -237,11 +252,16 @@ public class ActivityList extends AppCompatActivity {
         dialog.show();
     }
     private void realizarLlamada(Contactos contacto){
+
         String codigoArea = obtenerCodigoArea(contacto.getPais());
         String numeroTelefono = codigoArea + contacto.getTelefono();
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse("tel:" + numeroTelefono));
-        startActivity(intent);
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CALL_PHONE}, 1);
+        } else {
+            startActivity(intent);
+        }
     }
     private void eliminarContacto(Contactos contacto) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -271,4 +291,18 @@ public class ActivityList extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    private void iniciarActualizacionContacto(Contactos contacto) {
+        Intent intent = new Intent(ActivityList.this, ActivityUpdate.class);
+        intent.putExtra("contactoId", contacto.getId());
+        intent.putExtra("nombre", contacto.getNombres());
+        intent.putExtra("telefono", String.valueOf(contacto.getTelefono()));
+        intent.putExtra("nota", contacto.getNota());
+        intent.putExtra("pais", contacto.getPais());
+
+        startActivity(intent);
+    }
+
+
+
 }
