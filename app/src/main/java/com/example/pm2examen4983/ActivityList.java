@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -35,6 +36,8 @@ public class ActivityList extends AppCompatActivity {
     ListView contactosList;
     ArrayList<Contactos> lista;
     ArrayList<String> Arreglo;
+    ArrayAdapter<String> adapter;
+    SearchView buscar;
 
 
     @SuppressLint("MissingInflatedId")
@@ -51,11 +54,23 @@ public class ActivityList extends AppCompatActivity {
 
         conexion = new SQLiteConexion(this, Trans.DBname, null, Trans.Version);
         contactosList = (ListView) findViewById(R.id.listaContactos);
-
+        buscar = (SearchView) findViewById(R.id.searchView);
         obtenerInfo();
 
         ArrayAdapter<String> adp = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Arreglo);
         contactosList.setAdapter(adp);
+
+       buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText){
+                adp.getFilter().filter(newText);
+                return true;
+            }
+        });
 
         contactosList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

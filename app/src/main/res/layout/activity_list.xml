@@ -28,15 +28,14 @@
         android:layout_width="343dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
-        android:foregroundTint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAtras" />
 
     <ListView
         android:id="@+id/listaContactos"
-        android:layout_width="0dp"
-        android:layout_height="372dp"
+        android:layout_width="335dp"
+        android:layout_height="425dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="30dp"
@@ -51,12 +50,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView"></ListView>
 
+
     <Button
         android:id="@+id/btnCompartir"
         android:layout_width="160dp"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="sans-serif-black"
         android:text="Compartir"
@@ -64,6 +64,7 @@
         app:iconSize="20dp"
         app:iconTint="#FFFFFF"
         app:layout_constraintEnd_toStartOf="@+id/btnVerImagen"
+        app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listaContactos" />
 
@@ -72,6 +73,21 @@
         android:layout_width="160dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Eliminar"
+        app:icon="@android:drawable/ic_menu_view"
+        app:iconSize="24dp"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toEndOf="@+id/btnActualizar"
+        app:layout_constraintTop_toBottomOf="@+id/btnVerImagen" />
+
+    <Button
+        android:id="@+id/btnVerImagen"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:fontFamily="sans-serif-black"
         android:text="Ver Imagen"
@@ -83,39 +99,18 @@
         app:layout_constraintStart_toEndOf="@+id/btnCompartir"
         app:layout_constraintTop_toBottomOf="@+id/listaContactos" />
 
-
     <Button
         android:id="@+id/btnActualizar"
         android:layout_width="160dp"
         android:layout_height="50dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="sans-serif-black"
         android:text="Actualizar"
         app:icon="@android:drawable/ic_popup_sync"
         app:iconSize="20dp"
         app:iconTint="#FFFFFF"
-        app:layout_constraintEnd_toStartOf="@+id/btnEliminar"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCompartir" />
-
-    <Button
-        android:id="@+id/btnEliminar"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="215dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="30dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Eliminar"
-        app:icon="@android:drawable/ic_menu_delete"
-        app:iconSize="24dp"
-        app:iconTint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnVerImagen"
-        app:layout_constraintVertical_bias="0.303" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
