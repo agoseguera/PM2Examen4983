@@ -33,18 +33,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAtras" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ListView
+        android:id="@+id/listaContactos"
         android:layout_width="0dp"
         android:layout_height="372dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="30dp"
+        android:background="@color/white"
+        android:cacheColorHint="@color/white"
         android:orientation="vertical"
+        android:scrollbarStyle="insideInset"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/searchView"></ListView>
 
     <Button
         android:id="@+id/btnCompartir"
@@ -60,7 +65,7 @@
         app:iconTint="#FFFFFF"
         app:layout_constraintEnd_toStartOf="@+id/btnVerImagen"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/listaContactos" />
 
     <Button
         android:id="@+id/btnVerImagen"
@@ -76,7 +81,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toEndOf="@+id/btnCompartir"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/listaContactos" />
 
 
     <Button
