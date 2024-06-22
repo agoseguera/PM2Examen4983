@@ -39,6 +39,9 @@ public class ActivityList extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     SearchView buscar;
 
+    Contactos contactoSeleccionado = null;
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -77,7 +80,16 @@ public class ActivityList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Contactos contactoSeleccionado = lista.get(position);
                 //Toast.makeText(getApplicationContext(), elementoSeleccionado, Toast.LENGTH_SHORT).show();
-                msjConfirmacion(contactoSeleccionado);
+                //msjConfirmacion(contactoSeleccionado);
+            }
+        });
+        contactosList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                contactoSeleccionado = lista.get(position);
+                //Toast.makeText(ActivityList.this, "Contacto seleccionado para eliminar: " + contactoSeleccionado.getNombres(), Toast.LENGTH_SHORT).show();
+                msjConfirmacionLlamada(contactoSeleccionado);
+                return true;
             }
         });
 
@@ -87,6 +99,17 @@ public class ActivityList extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityList.this, ActivityInit.class);
                 startActivity(intent);
+            }
+        });
+        Button btnEliminar = findViewById(R.id.btnEliminar);
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (contactoSeleccionado != null) {
+                    eliminarContacto(contactoSeleccionado);
+                } else {
+                    Toast.makeText(ActivityList.this, "Seleccione un contacto primero", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -143,7 +166,7 @@ public class ActivityList extends AppCompatActivity {
     }
 
 
-    private void msjConfirmacion(Contactos contacto){
+    private void msjConfirmacionLlamada(Contactos contacto){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Acción");
         builder.setMessage("¿Desea llamar a " + contacto.getNombres() + "?");
@@ -171,6 +194,39 @@ public class ActivityList extends AppCompatActivity {
         String numeroTelefono = codigoArea + contacto.getTelefono();
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse("tel:" + numeroTelefono));
-        startActivity(intent);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+        } else {
+            startActivity(intent);
+        }
+    }
+    private void eliminarContacto(Contactos contacto) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirmar eliminación");
+        builder.setMessage("¿Está seguro de que desea eliminar el contacto " + contacto.getNombres() + "?");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SQLiteDatabase db = conexion.getWritableDatabase();
+                String[] params = {String.valueOf(contacto.getId())};
+                db.delete(Trans.TableContactos, Trans.id + "=?", params);
+                Toast.makeText(ActivityList.this, "Contacto eliminado", Toast.LENGTH_SHORT).show();
+
+
+                obtenerInfo();
+                ArrayAdapter<String> adp = new ArrayAdapter(ActivityList.this, android.R.layout.simple_list_item_1, Arreglo);
+                contactosList.setAdapter(adp);
+                contactoSeleccionado = null;
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
+
