@@ -10,13 +10,17 @@
 
     <Button
         android:id="@+id/btnAtras"
-        android:layout_width="158dp"
-        android:layout_height="58dp"
+        android:layout_width="118dp"
+        android:layout_height="51dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="260dp"
-        android:backgroundTint="#1386E1"
+        android:backgroundTint="#2196F3"
+        android:backgroundTintMode="add"
+        android:fontFamily="sans-serif-black"
         android:text="Atras"
+        android:textAlignment="viewStart"
+        android:textStyle="bold"
         app:icon="@drawable/back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -32,10 +36,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAtras" />
 
+
     <ListView
         android:id="@+id/listaContactos"
         android:layout_width="0dp"
-        android:layout_height="372dp"
+        android:layout_height="425dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="30dp"
@@ -46,7 +51,7 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView"></ListView>
 
@@ -55,23 +60,42 @@
         android:layout_width="160dp"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:backgroundTint="#2196F3"
         android:fontFamily="sans-serif-black"
         android:text="Compartir"
         app:icon="@android:drawable/ic_menu_share"
         app:iconSize="20dp"
         app:iconTint="#FFFFFF"
         app:layout_constraintEnd_toStartOf="@+id/btnVerImagen"
+        app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listaContactos" />
+
+    <Button
+        android:id="@+id/btnEliminar"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#2196F3"
+        android:fontFamily="sans-serif-black"
+        android:text="Eliminar"
+        app:icon="@android:drawable/ic_menu_delete"
+        app:iconSize="24dp"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.61"
+        app:layout_constraintStart_toEndOf="@+id/btnActualizar"
+        app:layout_constraintTop_toBottomOf="@+id/btnVerImagen" />
 
     <Button
         android:id="@+id/btnVerImagen"
         android:layout_width="160dp"
         android:layout_height="50dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
+        android:backgroundTint="#2196F3"
         android:fontFamily="sans-serif-black"
         android:text="Ver Imagen"
         app:icon="@android:drawable/ic_menu_view"
@@ -82,39 +106,19 @@
         app:layout_constraintStart_toEndOf="@+id/btnCompartir"
         app:layout_constraintTop_toBottomOf="@+id/listaContactos" />
 
-
     <Button
         android:id="@+id/btnActualizar"
-        android:layout_width="160dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="158dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#2196F3"
         android:fontFamily="sans-serif-black"
         android:text="Actualizar"
         app:icon="@android:drawable/ic_popup_sync"
         app:iconSize="20dp"
         app:iconTint="#FFFFFF"
-        app:layout_constraintEnd_toStartOf="@+id/btnEliminar"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCompartir" />
-
-    <Button
-        android:id="@+id/btnEliminar"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="215dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="30dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Eliminar"
-        app:icon="@android:drawable/ic_menu_delete"
-        app:iconSize="24dp"
-        app:iconTint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnVerImagen"
-        app:layout_constraintVertical_bias="0.303" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

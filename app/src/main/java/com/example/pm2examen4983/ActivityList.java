@@ -40,6 +40,7 @@ public class ActivityList extends AppCompatActivity {
     SearchView buscar;
 
     private int contactop = -1;
+    Contactos contactoSeleccionado = null;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -76,10 +77,23 @@ public class ActivityList extends AppCompatActivity {
         contactosList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 contactop = position;
                 String elementoSeleccionado = (String) parent.getItemAtPosition(position);
 
                 Toast.makeText(getApplicationContext(), elementoSeleccionado, Toast.LENGTH_SHORT).show();
+                Contactos contactoSeleccionado = lista.get(position);
+                //Toast.makeText(getApplicationContext(), elementoSeleccionado, Toast.LENGTH_SHORT).show();
+                //msjConfirmacion(contactoSeleccionado);
+            }
+        });
+        contactosList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                contactoSeleccionado = lista.get(position);
+                //Toast.makeText(ActivityList.this, "Contacto seleccionado para eliminar: " + contactoSeleccionado.getNombres(), Toast.LENGTH_SHORT).show();
+                msjConfirmacionLlamada(contactoSeleccionado);
+                return true;
             }
         });
 
@@ -92,7 +106,6 @@ public class ActivityList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         Button btnVerImagen = findViewById(R.id.btnVerImagen);
         btnVerImagen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +138,17 @@ public class ActivityList extends AppCompatActivity {
             }
         });
 
+        Button btnEliminar = findViewById(R.id.btnEliminar);
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (contactoSeleccionado != null) {
+                    eliminarContacto(contactoSeleccionado);
+                } else {
+                    Toast.makeText(ActivityList.this, "Seleccione un contacto primero", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void obtenerInfo(){
@@ -188,8 +212,26 @@ public class ActivityList extends AppCompatActivity {
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TITLE, "INFORMACIÓN DE CONTACTO");
         intent.putExtra(Intent.EXTRA_TEXT, info);
-
         intent.setType("text/plain");
+    private void msjConfirmacionLlamada(Contactos contacto){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Acción");
+        builder.setMessage("¿Desea llamar a " + contacto.getNombres() + "?");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                realizarLlamada(contacto);
+
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
         Intent share = Intent.createChooser(intent, null);
         startActivity(share);
@@ -198,5 +240,43 @@ public class ActivityList extends AppCompatActivity {
 
 
 
+}
+        String codigoArea = obtenerCodigoArea(contacto.getPais());
+        String numeroTelefono = codigoArea + contacto.getTelefono();
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + numeroTelefono));
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+        } else {
+            startActivity(intent);
+        }
+    }
+    private void eliminarContacto(Contactos contacto) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirmar eliminación");
+        builder.setMessage("¿Está seguro de que desea eliminar el contacto " + contacto.getNombres() + "?");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SQLiteDatabase db = conexion.getWritableDatabase();
+                String[] params = {String.valueOf(contacto.getId())};
+                db.delete(Trans.TableContactos, Trans.id + "=?", params);
+                Toast.makeText(ActivityList.this, "Contacto eliminado", Toast.LENGTH_SHORT).show();
 
+
+                obtenerInfo();
+                ArrayAdapter<String> adp = new ArrayAdapter(ActivityList.this, android.R.layout.simple_list_item_1, Arreglo);
+                contactosList.setAdapter(adp);
+                contactoSeleccionado = null;
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }
