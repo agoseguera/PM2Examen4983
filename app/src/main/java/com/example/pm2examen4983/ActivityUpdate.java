@@ -3,6 +3,7 @@ package com.example.pm2examen4983;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -162,7 +164,19 @@ public class ActivityUpdate extends AppCompatActivity {
             String[] params = {String.valueOf(contactoId)};
             db.update(Trans.TableContactos, valores, Trans.id + "=?", params);
 
-            Toast.makeText(this, "Contacto actualizado con éxito", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Contacto actualizado con éxito", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Registro Actualizado");
+            builder.setMessage("REGISTRO ACTUALIZADO CON EXITO ");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
             db.close();
         } catch (Exception ex) {

@@ -85,7 +85,7 @@ public class ActivityList extends AppCompatActivity {
                 contactop = position;
                 String elementoSeleccionado = (String) parent.getItemAtPosition(position);
 
-                Toast.makeText(getApplicationContext(), elementoSeleccionado, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Ha seleccionado un contacto", Toast.LENGTH_SHORT).show();
                 Contactos contactoSeleccionado = lista.get(position);
             }
         });
@@ -274,6 +274,7 @@ public class ActivityList extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
     private void eliminarContacto(Contactos contacto) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirmar eliminación");
@@ -284,23 +285,26 @@ public class ActivityList extends AppCompatActivity {
                 SQLiteDatabase db = conexion.getWritableDatabase();
                 String[] params = {String.valueOf(contacto.getId())};
                 db.delete(Trans.TableContactos, Trans.id + "=?", params);
-                Toast.makeText(ActivityList.this, "Contacto eliminado", Toast.LENGTH_SHORT).show();
-
 
                 obtenerInfo();
-                ArrayAdapter<String> adp = new ArrayAdapter(ActivityList.this, android.R.layout.simple_list_item_1, Arreglo);
+                ArrayAdapter<String> adp = new ArrayAdapter<>(ActivityList.this, android.R.layout.simple_list_item_1, Arreglo);
                 contactosList.setAdapter(adp);
                 contactoSeleccionado = null;
+
+                AlertDialog.Builder successBuilder = new AlertDialog.Builder(ActivityList.this);
+                successBuilder.setTitle("Registro Eliminado");
+                successBuilder.setMessage("REGISTRO ELIMINADO CON EXITO ");
+                successBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                successBuilder.show();
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        builder.setNegativeButton("No", null);
+        builder.show();
     }
 
     private void iniciarActualizacionContacto(Contactos contacto) {
