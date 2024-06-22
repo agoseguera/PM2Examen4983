@@ -104,7 +104,8 @@ public class ActivityInit extends AppCompatActivity {
         String ingresoNota = nota.getText().toString().trim();
         String seleccionPais = pais.getSelectedItem().toString();
 
-        if (TextUtils.isEmpty(ingresoNombre) || TextUtils.isEmpty(ingresoTel) || TextUtils.isEmpty(ingresoNota) || seleccionPais.equals("Seleccione un país:")) {
+        if (TextUtils.isEmpty(ingresoNombre) || TextUtils.isEmpty(ingresoTel) || TextUtils.isEmpty(ingresoNota) || seleccionPais.equals("Seleccione un país:")||
+                fotoBitmap == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Error de Validación");
             builder.setMessage("Por favor complete todos los campos.");
@@ -120,6 +121,7 @@ public class ActivityInit extends AppCompatActivity {
         }
 
         try {
+
             SQLiteConexion conexion = new SQLiteConexion(this, Trans.DBname, null, Trans.Version);
             SQLiteDatabase db = conexion.getWritableDatabase();
 
@@ -230,5 +232,4 @@ public class ActivityInit extends AppCompatActivity {
             }
         }
     }
-
 }

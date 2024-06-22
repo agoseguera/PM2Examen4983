@@ -59,6 +59,7 @@ public class ActivityUpdate extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_update);
 
+        ObjectoImagen = (ImageView) findViewById(R.id.imageView);
         imageView = findViewById(R.id.imageView);
         conexion = new SQLiteConexion(this, Trans.DBname, null, Trans.Version);
 
