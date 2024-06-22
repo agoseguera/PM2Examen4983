@@ -60,8 +60,8 @@ public class Contactos {
         this.nota = nota;
     }
 
-    public byte[] getFoto() {
-        return foto.getBytes();
+    public String getFoto() {
+        return foto;
     }
 
     public void setFoto(String foto) {
