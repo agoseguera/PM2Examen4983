@@ -6,13 +6,9 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,16 +27,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import Configuracion.SQLiteConexion;
 import Configuracion.Trans;
@@ -77,7 +68,7 @@ public class ActivityInit extends AppCompatActivity {
         telefono = (EditText)findViewById(R.id.telefono);
         nota = (EditText)findViewById(R.id.nota);
         btnGuardar = (Button) findViewById(R.id.btnGuardar);
-        ObjectoImagen = (ImageView) findViewById(R.id.fotoView);
+        ObjectoImagen = (ImageView) findViewById(R.id.imageView);
         btncaptura = (Button) findViewById(R.id.btnFoto);
         Button btnOpenList = findViewById(R.id.btnContactosG);
 

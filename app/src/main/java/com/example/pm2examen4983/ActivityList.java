@@ -87,15 +87,12 @@ public class ActivityList extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), elementoSeleccionado, Toast.LENGTH_SHORT).show();
                 Contactos contactoSeleccionado = lista.get(position);
-                //Toast.makeText(getApplicationContext(), elementoSeleccionado, Toast.LENGTH_SHORT).show();
-                //msjConfirmacion(contactoSeleccionado);
             }
         });
         contactosList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 contactoSeleccionado = lista.get(position);
-                //Toast.makeText(ActivityList.this, "Contacto seleccionado para eliminar: " + contactoSeleccionado.getNombres(), Toast.LENGTH_SHORT).show();
                 msjConfirmacionLlamada(contactoSeleccionado);
                 return true;
             }
@@ -105,7 +102,6 @@ public class ActivityList extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Crear un Intent para abrir SecondActivity
                 Intent intent = new Intent(ActivityList.this, ActivityInit.class);
                 startActivity(intent);
             }
@@ -120,7 +116,11 @@ public class ActivityList extends AppCompatActivity {
                     intent.putExtra("contactfoto", contactos.getId());
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Seleccione un contacto primero", Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(ActivityList.this)
+                            .setTitle("Seleccione un contacto")
+                            .setMessage("Debe seleccionar un contacto para ver su imagen.")
+                            .setPositiveButton("OK", null)
+                            .show();
                 }
             }
         });
@@ -146,10 +146,15 @@ public class ActivityList extends AppCompatActivity {
         btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (contactoSeleccionado != null) {
-                    eliminarContacto(contactoSeleccionado);
+                if (contactop != -1) {
+                        Contactos contactos= lista.get(contactop);
+                        eliminarContacto(contactos);
                 } else {
-                    Toast.makeText(ActivityList.this, "Seleccione un contacto primero", Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(ActivityList.this)
+                            .setTitle("Seleccione un contacto")
+                            .setMessage("Debe seleccionar un contacto para eliminar.")
+                            .setPositiveButton("OK", null)
+                            .show();
                 }
             }
         });
@@ -158,10 +163,16 @@ public class ActivityList extends AppCompatActivity {
         btnActualizar.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                if (contactoSeleccionado != null) {
-                    iniciarActualizacionContacto(contactoSeleccionado);
+
+                    if (contactop != -1) {
+                        Contactos contactos= lista.get(contactop);
+                        iniciarActualizacionContacto(contactos);
                 } else {
-                    Toast.makeText(ActivityList.this, "Seleccione un contacto primero", Toast.LENGTH_SHORT).show();
+                        new AlertDialog.Builder(ActivityList.this)
+                                .setTitle("Seleccione un contacto")
+                                .setMessage("Debe seleccionar un contacto para actualizar.")
+                                .setPositiveButton("OK", null)
+                                .show();
                 }
             }
         });
@@ -299,6 +310,7 @@ public class ActivityList extends AppCompatActivity {
         intent.putExtra("telefono", String.valueOf(contacto.getTelefono()));
         intent.putExtra("nota", contacto.getNota());
         intent.putExtra("pais", contacto.getPais());
+        intent.putExtra("contactfoto", contacto.getId());
 
         startActivity(intent);
     }
