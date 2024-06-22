@@ -96,14 +96,30 @@ public class ActivityList extends AppCompatActivity {
 
 
     }
-    private void FillDate()
-    {
-        Arreglo = new ArrayList<String>();
-        for(int i=0; i < lista.size(); i++)
-        {
-            Arreglo.add(lista.get(i).getNombres() + " | " +
-                    lista.get(i).getTelefono());
-
+    private String obtenerCodigoArea(String pais) {
+        switch (pais) {
+            case "Honduras":
+                return "+504";
+            case "Guatemala":
+                return "+502";
+            case "El Salvador":
+                return "+503";
+            case "Costa Rica":
+                return "+506";
+            case "Nicaragua":
+                return "+505";
+            default:
+                return ""; // Devuelve una cadena vacía si el país no está en la lista
         }
     }
+
+    private void FillDate() {
+        Arreglo = new ArrayList<String>();
+        for(int i = 0; i < lista.size(); i++) {
+            Contactos contacto = lista.get(i);
+            String codigoArea = obtenerCodigoArea(contacto.getPais());
+            Arreglo.add(contacto.getNombres() + " | " + codigoArea + contacto.getTelefono());
+        }
+    }
+
 }

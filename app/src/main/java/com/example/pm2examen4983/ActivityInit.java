@@ -165,7 +165,7 @@ public class ActivityInit extends AppCompatActivity {
     }
 
     private void FillData() {
-        String[] paises = {"Seleccione un país:","Honduras (504)", "Guatemala (502)", "El Salvador", "Nicaragua", "Costa Rica"};
+        String[] paises = {"Seleccione un país:","Honduras", "Guatemala", "El Salvador", "Nicaragua", "Costa Rica"};
 
         ArrayAdapter<String> adp = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, paises);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_item);
